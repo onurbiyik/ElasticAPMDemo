@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BenimApi.Data;
+using Microsoft.Data.SqlClient;
+using System.Net.Http;
 
 namespace BenimApi
 {
@@ -14,16 +16,36 @@ namespace BenimApi
     public class WeatherForecastsController : ControllerBase
     {
         private readonly BenimDbContext _context;
+        private readonly IHttpClientFactory _httpClientFac;
 
-        public WeatherForecastsController(BenimDbContext context)
+        public WeatherForecastsController(BenimDbContext context, IHttpClientFactory httpClientFac)
         {
             _context = context;
+            _httpClientFac = httpClientFac;
         }
 
         // GET: api/WeatherForecasts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<WeatherForecast>>> GetWeatherForecast()
         {
+            var rnd = new Random().NextDouble();
+            if (rnd < 0.05)
+                throw new ApplicationException("uygulama patladı.");
+
+            if (rnd < 0.25)
+            {
+                using var c = _httpClientFac.CreateClient();
+                var sahib = await c.GetAsync("http://www.brazilmotorsandcontrols.com/Home.html");
+                var sayfa = await sahib.Content.ReadAsStringAsync();                
+            }
+
+            if (rnd > 0.75)
+            {
+                using var c = _httpClientFac.CreateClient();
+                var sahib = await c.GetAsync("https://www.ferrari.com/en-US");
+                var sayfa = await sahib.Content.ReadAsStringAsync();
+            }
+
             return await _context.WeatherForecast.ToListAsync();
         }
 

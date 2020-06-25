@@ -1,8 +1,10 @@
 {
   "dependencies": {
     "mssql1": {
+      "resourceId": null,
       "type": "mssql.local",
-      "connectionId": "BenimDbContext"
+      "connectionId": "BenimDbContext",
+      "secretStore": null
     }
   }
 }

@@ -42,7 +42,6 @@ namespace WebApp
                 app.UseHsts();
             }
 
-
             app.UseAllElasticApm(Configuration);
 
             app.UseHttpsRedirection();
