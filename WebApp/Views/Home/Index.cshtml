@@ -1,0 +1,14 @@
+﻿@model List<WeatherForecast>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">HAVALAR</h1>
+    @foreach (var m in Model)
+    {
+        <p>@m.date | @m.summary</p>
+    }
+</div>
+
