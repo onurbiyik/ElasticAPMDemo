@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using BenimApi.Data;
+using Elastic.Apm.NetCoreAll;
 
 namespace BenimApi
 {
@@ -40,6 +41,8 @@ namespace BenimApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAllElasticApm(Configuration);
 
             app.UseHttpsRedirection();
 
