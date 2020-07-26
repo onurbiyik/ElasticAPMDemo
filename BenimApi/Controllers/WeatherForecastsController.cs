@@ -29,14 +29,19 @@ namespace BenimApi
         public async Task<ActionResult<IEnumerable<WeatherForecast>>> GetWeatherForecast()
         {
             var rnd = new Random().NextDouble();
-            if (rnd < 0.05)
+            if (rnd < 0.08)
                 throw new ApplicationException("uygulama patladı.");
 
             if (rnd < 0.25)
             {
                 using var c = _httpClientFac.CreateClient();
                 var sahib = await c.GetAsync("http://www.brazilmotorsandcontrols.com/Home.html");
-                var sayfa = await sahib.Content.ReadAsStringAsync();                
+                var sayfa = await sahib.Content.ReadAsStringAsync();
+            }
+
+            if (rnd > 0.15 && rnd < 0.35)
+            {
+                System.Threading.Thread.Sleep(Convert.ToInt32(10000 * (rnd - 0.15)));
             }
 
             if (rnd > 0.75)
