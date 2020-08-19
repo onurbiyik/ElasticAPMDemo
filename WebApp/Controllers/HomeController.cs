@@ -24,7 +24,7 @@ namespace WebApp.Controllers
 
         public async Task<IActionResult> IndexAsync()
         {
-            var c = _httpClientFac.CreateClient();
+            using var c = _httpClientFac.CreateClient();
             var apiTask = c.GetStreamAsync("https://localhost:44386/weatherforecasts");
             var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
 
