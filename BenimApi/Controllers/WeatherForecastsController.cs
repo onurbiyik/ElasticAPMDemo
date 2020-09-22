@@ -32,11 +32,13 @@ namespace BenimApi
             if (rnd < 0.08)
                 throw new ApplicationException("uygulama patladı.");
 
+            var tasks = new List<Task>();
             if (rnd < 0.25)
             {
                 using var c = _httpClientFac.CreateClient();
-                var sahib = await c.GetAsync("http://www.brazilmotorsandcontrols.com/Home.html");
-                var sayfa = await sahib.Content.ReadAsStringAsync();
+                tasks.Add( c.GetAsync("http://www.brazilmotorsandcontrols.com/Home.html"));
+                tasks.Add(c.GetAsync("http://www.veoliawatertech.com/latam/es/"));
+
             }
 
             if (rnd > 0.15 && rnd < 0.35)
@@ -47,9 +49,12 @@ namespace BenimApi
             if (rnd > 0.75)
             {
                 using var c = _httpClientFac.CreateClient();
-                var sahib = await c.GetAsync("https://www.ferrari.com/en-US");
-                var sayfa = await sahib.Content.ReadAsStringAsync();
+                var sahib = c.GetAsync("https://www.ferrari.com/en-US").ContinueWith(async (task) => { await task.Result.Content.ReadAsStringAsync(); });
+                tasks.Add(sahib);
             }
+
+            Task.WaitAll(tasks.ToArray());
+
 
             return await _context.WeatherForecast.ToListAsync();
         }
