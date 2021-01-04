@@ -27,14 +27,34 @@ namespace WebApp.Controllers
             using var c = _httpClientFac.CreateClient();
             var apiTask = c.GetStreamAsync("https://localhost:44386/weatherforecasts");
             var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
-
+            
+ 
 
             return View(weather);
         }
 
         public IActionResult Privacy()
         {
+
+
             return View();
+        }
+
+        public async Task<IActionResult> SlowViewAsync()
+        {
+            var k = "BatMan";
+            for (int i = 0; i < 10000; i++)
+            {
+                k += "NaN" + i.ToString();
+            }
+            k.ToUpper().Trim();
+
+            using var c = _httpClientFac.CreateClient();
+            var apiTask = c.GetStreamAsync("https://localhost:44386/weatherforecasts");
+            
+            var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
+
+            return View(weather);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

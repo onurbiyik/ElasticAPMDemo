@@ -8,7 +8,8 @@
     <h1 class="display-4">HAVALAR</h1>
     @foreach (var m in Model)
     {
-        <p>@m.date.ToString("dd MMMM") | @m.summary </p>
+        System.Threading.Thread.Sleep(400);
+        <p>@m.date.ToString("dd MMMM") | @m.summary</p>
     }
 </div>
 
