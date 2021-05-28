@@ -32,23 +32,25 @@ namespace BenimApi
             if (rnd < 0.08)
                 throw new ApplicationException("uygulama patladı.");
 
+            using var c = _httpClientFac.CreateClient();
+
             var tasks = new List<Task>();
-            if (rnd < 0.25)
+            if (rnd < 0.15)
             {
-                using var c = _httpClientFac.CreateClient();
+                
                 tasks.Add( c.GetAsync("http://www.brazilmotorsandcontrols.com/Home.html"));
                 tasks.Add(c.GetAsync("http://www.veoliawatertech.com/latam/es/"));
 
             }
 
-            if (rnd > 0.15 && rnd < 0.35)
+            if (rnd > 0.05 && rnd < 0.25)
             {
-                System.Threading.Thread.Sleep(Convert.ToInt32(10000 * (rnd - 0.15)));
+                System.Threading.Thread.Sleep(Convert.ToInt32(10000 * (rnd - 0.02)));
             }
 
-            if (rnd > 0.75)
-            {
-                using var c = _httpClientFac.CreateClient();
+            if (rnd > 0.9)
+            {                
+                tasks.Add(c.GetStringAsync("https://www.ferrari.com/fr-FR"));
                 var sahib = c.GetAsync("https://www.ferrari.com/en-US").ContinueWith(async (task) => { await task.Result.Content.ReadAsStringAsync(); });
                 tasks.Add(sahib);
             }
