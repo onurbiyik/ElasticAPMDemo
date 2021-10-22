@@ -1,4 +1,5 @@
-version: '2.2'
+version: '3.8'
+
 services:
   apm-server:
     image: docker.elastic.co/apm/apm-server:7.15.1
@@ -65,10 +66,63 @@ services:
       interval: 10s
       retries: 20
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:5601/api/status
+  
+  benimapi:
+    image: elastikeypiem/benimapi
+    build:
+      context: .
+      dockerfile: BenimApi/Dockerfile
+    depends_on:
+    - benimsql
+    - apm-server
+    environment:
+    - ElasticApm__ServerUrl=http://apm-server:8200
+    - ASPNETCORE_Environment=Development
+    - ConnectionStrings__BenimDbContext=Server=benimsql,1433;Database=BenimDb;User Id=sa;Password=Very300!SecretKaraKutu
+    ports:
+    - 16543:443
+    - 16580:80
+    networks:
+    - elastic
+
+  benimweb:
+    image: elastikeypiem/benimweb
+    build:
+      context: .
+      dockerfile: WebApp/Dockerfile
+    depends_on:
+    - benimapi
+    environment:
+    - ElasticApm__ServerUrl=http://apm-server:8200
+    - ASPNETCORE_Environment=Development
+    - BenimApiUrl=http://benimapi
+    ports:
+    - 16443:443
+    - 16480:80
+    networks:
+    - elastic
+
+  benimsql:
+    image: "mcr.microsoft.com/mssql/server:2019-latest"
+    environment:
+      SA_PASSWORD: "Very300!SecretKaraKutu"
+      MSSQL_PID: "Developer"
+      MSSQL_TCP_PORT: "1433"
+      ACCEPT_EULA: "Y"
+    expose:
+    - 1433
+    ports:
+    - 1433:1433
+    volumes:
+    - elastik-sqldata:/var/opt/mssql
+    networks:
+    - elastic
 
 volumes:
   esdata:
     driver: local
+  elastik-sqldata:
+    external: false
 
 networks:
   elastic:

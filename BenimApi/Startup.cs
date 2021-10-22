@@ -33,11 +33,15 @@ namespace BenimApi
 
             services.AddDbContext<BenimDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("BenimDbContext")));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, BenimDbContext dbContext)
         {
+
+            dbContext.Database.Migrate();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -45,7 +49,7 @@ namespace BenimApi
 
             app.UseAllElasticApm(Configuration);
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection(); // TODO : secure!
 
             app.UseRouting();
 

@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using WebApp.Models;
 
@@ -15,17 +16,21 @@ namespace WebApp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFac;
+        private readonly IConfiguration _config;
+        private readonly string apiUrl;
 
-        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFac)
+        public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFac, IConfiguration config)
         {
             _logger = logger;
             _httpClientFac = httpClientFac;
+            _config = config;
+            this.apiUrl = _config.GetValue<string>("BenimApiUrl");
         }
 
         public async Task<IActionResult> IndexAsync()
         {
             using var c = _httpClientFac.CreateClient();
-            var apiTask = c.GetStreamAsync("https://localhost:44386/weatherforecasts");
+            var apiTask = c.GetStreamAsync(apiUrl + "/weatherforecasts");
             var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
             
  
@@ -50,7 +55,7 @@ namespace WebApp.Controllers
             k.ToUpper().Trim();
 
             using var c = _httpClientFac.CreateClient();
-            var apiTask = c.GetStreamAsync("https://localhost:44386/weatherforecasts");
+            var apiTask = c.GetStreamAsync(apiUrl + "/weatherforecasts");
             
             var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
 

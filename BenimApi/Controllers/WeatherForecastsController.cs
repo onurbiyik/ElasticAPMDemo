@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using BenimApi.Data;
 using Microsoft.Data.SqlClient;
 using System.Net.Http;
+using Microsoft.Extensions.Configuration;
 
 namespace BenimApi
 {
@@ -17,11 +18,13 @@ namespace BenimApi
     {
         private readonly BenimDbContext _context;
         private readonly IHttpClientFactory _httpClientFac;
+        private readonly IConfiguration _config;
 
-        public WeatherForecastsController(BenimDbContext context, IHttpClientFactory httpClientFac)
+        public WeatherForecastsController(BenimDbContext context, IHttpClientFactory httpClientFac, IConfiguration config)
         {
             _context = context;
             _httpClientFac = httpClientFac;
+            _config = config;
         }
 
         // GET: api/WeatherForecasts
