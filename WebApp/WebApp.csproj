@@ -8,4 +8,8 @@
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.11.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\lib\" />
+  </ItemGroup>
+
 </Project>
