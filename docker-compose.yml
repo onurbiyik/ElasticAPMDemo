@@ -80,9 +80,11 @@ services:
     - ElasticApm__ServerUrl=http://apm-server:8200
     - ASPNETCORE_Environment=Development
     - ConnectionStrings__BenimDbContext=Server=benimsql,1433;Database=BenimDb;User Id=sa;Password=Very300!SecretKaraKutu
+    volumes:
+    - ${APPDATA}/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     ports:
     - 16543:443
-    - 16580:80
     networks:
     - netmyapplication
 
@@ -96,10 +98,13 @@ services:
     environment:
     - ElasticApm__ServerUrl=http://apm-server:8200
     - ASPNETCORE_Environment=Development
+    - ASPNETCORE_URLS=https://+:443;http://+:80
     - BenimApiUrl=http://benimapi
+    volumes:
+    - ${APPDATA}/Microsoft/UserSecrets/:/root/.microsoft/usersecrets:ro
+    - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
     ports:
     - 16443:443
-    - 16480:80
     networks:
     - netmyapplication
 

@@ -44,7 +44,7 @@ namespace WebApp
 
             app.UseAllElasticApm(Configuration);
 
-            // app.UseHttpsRedirection(); // TODO : secure!
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
 
