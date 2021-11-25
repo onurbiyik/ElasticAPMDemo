@@ -1,20 +1,46 @@
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Hosting;
+using BenimApi.Data;
+using Elastic.Apm.NetCoreAll;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace BenimApi
+var builder = WebApplication.CreateBuilder(args);
+
+
+
+builder.Services.AddHttpClient();
+builder.Services.AddControllers();
+
+builder.Services.AddDbContext<BenimDbContext>(opts =>
 {
-    public class Program
+    var connString = builder.Configuration.GetConnectionString("MyConnectionString");
+    opts.UseSqlServer(connString, options =>
     {
-        public static void Main(string[] args)
-        {
-            CreateHostBuilder(args).Build().Run();
-        }
+        options.MigrationsAssembly(typeof(BenimDbContext).Assembly.FullName.Split(',')[0]);
+    });
+});
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
-    }
+builder.Services.AddDbContext<BenimDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("BenimDbContext")));
+
+
+var app = builder.Build();
+
+using (var dbContext = app.Services.GetRequiredService<BenimDbContext>())
+{
+    dbContext.Database.Migrate();
 }
+
+app.UseAllElasticApm(builder.Configuration);
+
+// app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthorization();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+});
