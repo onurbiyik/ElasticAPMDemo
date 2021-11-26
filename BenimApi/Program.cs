@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 
-
+builder.Services.AddGrpc();
 builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 
@@ -41,5 +41,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapGrpcService<BenimApi.Services.WeatherService>();
 
 app.Run();

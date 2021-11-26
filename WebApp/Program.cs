@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
 builder.Services.AddHttpClient();
 builder.Services.AddControllersWithViews();
 

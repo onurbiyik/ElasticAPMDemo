@@ -14,6 +14,6 @@ namespace WebApp.Models
 
         public int temperaturef => 32 + (int)(Temperaturec / 0.5556);
 
-        public string summary { get; set; }
+        public string? summary { get; set; }
     }
 }

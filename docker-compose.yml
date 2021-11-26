@@ -94,6 +94,7 @@ services:
     environment:
     - ElasticApm__ServerUrl=http://apm-server:8200
     - BenimApiUrl=http://benimapi
+    - BenimApiGrpcUrl=https://benimapi
     ports:
     - 16443:443
     networks:

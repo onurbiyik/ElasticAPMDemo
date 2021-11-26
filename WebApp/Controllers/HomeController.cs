@@ -5,6 +5,8 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Grpc.Core;
+using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -33,10 +35,27 @@ namespace WebApp.Controllers
             var apiTask = c.GetStreamAsync(apiUrl + "/weatherforecasts");
             var weather = await JsonSerializer.DeserializeAsync<List<WeatherForecast>>(await apiTask);
             
- 
-
             return View(weather);
         }
+
+        public async Task<IActionResult> GrpcAsync()
+        {
+            var httpHandler = new HttpClientHandler();
+
+#if DEBUG
+            // todo : could not get trusted internal certs in docker-compose.
+            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
+#endif
+
+            using var channel = GrpcChannel.ForAddress("https://benimapi", new GrpcChannelOptions { HttpHandler = httpHandler });
+
+            var client = new BenimApi.Grpc.WeatherService.WeatherServiceClient(channel);
+
+            var result = await client.GetForecastAsync(new BenimApi.Grpc.ForecastRequest());
+
+            return View(result.Results.ToList());
+        }
+
 
         public IActionResult Privacy()
         {

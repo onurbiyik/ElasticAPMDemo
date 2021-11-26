@@ -1,0 +1,31 @@
+﻿syntax = "proto3";
+
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "BenimApi.Grpc";
+
+package weather;
+
+// The greeting service definition.
+service WeatherService {
+  // Sends a greeting
+  rpc GetForecast (ForecastRequest) returns (ForecastReply);
+}
+
+// The request message containing the user's name.
+message ForecastRequest {
+}
+
+
+message Forecast{
+	int32 id = 1;
+	google.protobuf.Timestamp date = 2;
+	float TemperatureC = 3;
+	string Summary = 4;
+}
+
+
+// The response message containing the greetings.
+message ForecastReply {
+  repeated Forecast results = 1;
+}

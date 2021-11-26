@@ -7,8 +7,13 @@
 	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Protobuf Include="Protos\weather.proto" GrpcServices="Server" />
+	</ItemGroup>
+
   <ItemGroup>
     <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.12.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.0">
