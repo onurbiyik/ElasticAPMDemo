@@ -12,14 +12,14 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<BenimDbContext>(opts =>
-{
-    var connString = builder.Configuration.GetConnectionString("MyConnectionString");
-    opts.UseSqlServer(connString, options =>
-    {
-        options.MigrationsAssembly(typeof(BenimDbContext).Assembly.FullName.Split(',')[0]);
-    });
-});
+//builder.Services.AddDbContext<BenimDbContext>(opts =>
+//{
+//    var connString = builder.Configuration.GetConnectionString("BenimDbContext");
+//    opts.UseSqlServer(connString, options =>
+//    {
+//        options.MigrationsAssembly(typeof(BenimDbContext).Assembly.FullName.Split(',')[0]);
+//    });
+//});
 
 builder.Services.AddDbContext<BenimDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("BenimDbContext")));
@@ -27,7 +27,7 @@ builder.Services.AddDbContext<BenimDbContext>(options =>
 
 var app = builder.Build();
 
-using (var dbContext = app.Services.GetRequiredService<BenimDbContext>())
+using (var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<BenimDbContext>())
 {
     dbContext.Database.Migrate();
 }
@@ -40,7 +40,6 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
+
+app.Run();

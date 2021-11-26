@@ -1,18 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2609EB12-8768-48F0-A7F4-C6A8C8D55C58}"
 	ProjectSection(SolutionItems) = preProject
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
-		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csproj", "{102B01BB-5B73-4C8E-9C9C-2F44EC24E80A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenimApi", "BenimApi\BenimApi.csproj", "{42099574-1CA7-4FB5-B396-8F180CE05A2B}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,6 +29,10 @@ Global
 		{42099574-1CA7-4FB5-B396-8F180CE05A2B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{42099574-1CA7-4FB5-B396-8F180CE05A2B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{42099574-1CA7-4FB5-B396-8F180CE05A2B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
