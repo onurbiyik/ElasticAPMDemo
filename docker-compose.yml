@@ -80,7 +80,8 @@ services:
     - ElasticApm__ServerUrl=http://apm-server:8200
     - ConnectionStrings__BenimDbContext=Server=benimsql,1433;Database=BenimDb;User Id=sa;Password=Very300!SecretKaraKutu
     ports:
-    - 16543:443
+    - 16580:80
+    - 16581:81
     networks:
     - netmyapplication
 
@@ -94,7 +95,7 @@ services:
     environment:
     - ElasticApm__ServerUrl=http://apm-server:8200
     - BenimApiUrl=http://benimapi
-    - BenimApiGrpcUrl=https://benimapi
+    - BenimApiGrpcUrl=http://benimapi:81
     ports:
     - 16443:443
     networks:
