@@ -14,7 +14,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp", "WebApp\WebApp.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BenimApi", "BenimApi\BenimApi.csproj", "{42099574-1CA7-4FB5-B396-8F180CE05A2B}"
 EndProject
-Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}"
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "dockercompose\docker-compose.dcproj", "{D413AAA4-4B70-4E1F-BA24-873C7DC43C8B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
