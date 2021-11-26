@@ -1,11 +1,27 @@
 using BenimApi.Data;
 using Elastic.Apm.NetCoreAll;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.WebHost.UseKestrel(options =>
+{
+    options.ListenAnyIP(80, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+    });
+
+
+    options.ListenAnyIP(81, listenOptions => {
+        listenOptions.Protocols = HttpProtocols.Http2;
+    });
+
+});
+
 
 
 builder.Services.AddGrpc();
@@ -26,6 +42,7 @@ builder.Services.AddDbContext<BenimDbContext>(options =>
 
 
 var app = builder.Build();
+
 
 using (var dbContext = app.Services.CreateScope().ServiceProvider.GetRequiredService<BenimDbContext>())
 {

@@ -19,7 +19,7 @@ namespace WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpClientFactory _httpClientFac;
         private readonly IConfiguration _config;
-        private readonly string apiUrl;
+        private readonly string apiUrl, grpcUrl;
 
         public HomeController(ILogger<HomeController> logger, IHttpClientFactory httpClientFac, IConfiguration config)
         {
@@ -27,6 +27,7 @@ namespace WebApp.Controllers
             _httpClientFac = httpClientFac;
             _config = config;
             this.apiUrl = _config.GetValue<string>("BenimApiUrl");
+            this.grpcUrl = _config.GetValue<string>("BenimApiGrpcUrl");
         }
 
         public async Task<IActionResult> IndexAsync()
@@ -42,12 +43,12 @@ namespace WebApp.Controllers
         {
             var httpHandler = new HttpClientHandler();
 
-#if DEBUG
+#if false
             // todo : could not get trusted internal certs in docker-compose.
             httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
 #endif
 
-            using var channel = GrpcChannel.ForAddress("https://benimapi", new GrpcChannelOptions { HttpHandler = httpHandler });
+            using var channel = GrpcChannel.ForAddress(grpcUrl, new GrpcChannelOptions { HttpHandler = httpHandler });
 
             var client = new BenimApi.Grpc.WeatherService.WeatherServiceClient(channel);
 
