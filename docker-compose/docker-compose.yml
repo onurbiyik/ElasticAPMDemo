@@ -72,7 +72,7 @@ services:
     image: elastikeypiem/benimapi
     build:
       context: .
-      dockerfile: BenimApi/Dockerfile
+      dockerfile: ../BenimApi/Dockerfile
     depends_on:
     - benimsql
     - apm-server
@@ -89,7 +89,7 @@ services:
     image: elastikeypiem/webapp
     build:
       context: .
-      dockerfile: WebApp/Dockerfile
+      dockerfile: ../WebApp/Dockerfile
     depends_on:
     - benimapi
     environment:
